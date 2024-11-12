@@ -82,6 +82,7 @@ void RobosenseDecoderWrapper::process_cloud_packet(
     std::lock_guard lock(mtx_driver_ptr_);
     pointcloud_ts = driver_ptr_->parse_cloud_packet(packet_msg->data);
     pointcloud = std::get<0>(pointcloud_ts);
+    std::get<1>(pointcloud_ts) = packet_msg->stamp.sec + packet_msg->stamp.nanosec * 1e-9;
   }
 
   if (pointcloud == nullptr) {
